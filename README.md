@@ -1,7 +1,40 @@
 ## Prisma query for `{lat, lng}` querying and a radius
 
 ### PS: The frontend doesn't work, maybe I'll come back to it. The most interested part is under `server/` folder.
+![prisma-locations-demo](https://user-images.githubusercontent.com/2805320/44531485-34533e80-a6f1-11e8-965f-7d7765d5b5e7.gif)
 
+
+Usage
+
+```graphql
+mutation{
+  seed(count: 40, minLat: 48, maxLat: 51, minLng: 13.4, maxLng: 14){
+    lat
+  }
+}
+
+# Radius is is meters.
+query{
+  locations(radius: 3000, lat: 50, lng: 14.44) {
+    lat,
+    lng
+  }
+}
+
+query {
+  allLocations {
+    id
+    lat
+    lng
+  }
+}
+
+mutation{
+  createLocation(lat: 50.09878, lng: 14.420242){
+    id
+  }
+}
+```
 
 <h1 align="center"><strong>Boilerplate for a Advanced Fullstack GraphQL App with React</strong></h1>
 
