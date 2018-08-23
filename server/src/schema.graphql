@@ -1,0 +1,11 @@
+# import Location from "./generated/prisma.graphql"
+
+type Query {
+  locations(radius: Int!, lat:Float!, lng:Float!): [Location!]!
+  allLocations: [Location]
+}
+
+type Mutation {
+  createLocation(lat:Float!, lng: Float!): Location!
+  seed(count: Int!, minLat:Float!, maxLat:Float!, minLng:Float!, maxLng:Float!): Location!
+}
