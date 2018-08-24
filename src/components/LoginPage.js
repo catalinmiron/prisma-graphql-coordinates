@@ -3,6 +3,7 @@ import { withRouter } from 'react-router-dom'
 import { graphql } from 'react-apollo'
 import  { gql } from 'apollo-boost'
 import { AUTH_TOKEN } from '../constant'
+import Map from './Map'
 
 class LoginPage extends Component {
   state = {
@@ -14,6 +15,7 @@ class LoginPage extends Component {
     return (
       <div className="pa4 flex justify-center bg-white">
         <div>
+          <Map />
           <h3>
             Don't have an account? <a href="/signup">Signup</a>
           </h3>

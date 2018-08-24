@@ -1,5 +1,5 @@
 const Chance = require('chance');
-let chance = new Chance();
+let chance = new Chance('1337'); //special seed :)
 
 const location = {
   async createLocation(parent, { lat, lng }, ctx, info) {
