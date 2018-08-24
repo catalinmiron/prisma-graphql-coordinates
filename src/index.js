@@ -4,8 +4,7 @@ import { HttpLink, InMemoryCache, ApolloClient } from 'apollo-client-preset'
 import { WebSocketLink } from 'apollo-link-ws'
 import { ApolloLink, split } from 'apollo-link'
 import { getMainDefinition } from 'apollo-utilities'
-import { AUTH_TOKEN } from './constant'
-import RootContainer from './components/RootContainer'
+import Root from './components/Root'
 import { ApolloProvider } from 'react-apollo'
 
 import 'tachyons'
@@ -13,28 +12,10 @@ import './index.css'
 
 const httpLink = new HttpLink({ uri: 'http://localhost:4000' })
 
-const middlewareLink = new ApolloLink((operation, forward) => {
-  // get the authentication token from local storage if it exists
-  const tokenValue = localStorage.getItem(AUTH_TOKEN)
-  // return the headers to the context so httpLink can read them
-  operation.setContext({
-    headers: {
-      Authorization: tokenValue ? `Bearer ${tokenValue}` : '',
-    },
-  })
-  return forward(operation)
-})
-
-// authenticated httplink
-const httpLinkAuth = middlewareLink.concat(httpLink)
-
 const wsLink = new WebSocketLink({
   uri: `ws://localhost:4000`,
   options: {
-    reconnect: true,
-    connectionParams: {
-      Authorization: `Bearer ${localStorage.getItem(AUTH_TOKEN)}`,
-    },
+    reconnect: true
   },
 })
 
@@ -45,7 +26,7 @@ const link = split(
     return kind === 'OperationDefinition' && operation === 'subscription'
   },
   wsLink,
-  httpLinkAuth,
+  httpLink,
 )
 
 // apollo client setup
@@ -55,11 +36,9 @@ const client = new ApolloClient({
   connectToDevTools: true,
 })
 
-const token = localStorage.getItem(AUTH_TOKEN)
-
 ReactDOM.render(
   <ApolloProvider client={client}>
-    <RootContainer token={token} />
+    <Root />
   </ApolloProvider>,
   document.getElementById('root'),
 )
